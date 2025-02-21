@@ -10,12 +10,15 @@ import com.springlearn.backend.model.User;
 import com.springlearn.backend.repository.HabitCategoryRepository;
 import com.springlearn.backend.repository.HabitRepository;
 import com.springlearn.backend.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+
+@Slf4j
 
 @Service
 public class HabitService {
@@ -30,15 +33,18 @@ public class HabitService {
         User user = userRepository.findById(habitDto.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + habitDto.getUserId()));
 
-        HabitCategory category = habitCategoryRepository.findById(UUID.fromString(habitDto.getCategoryId()))
+        HabitCategory category = habitCategoryRepository.findById(habitDto.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + habitDto.getCategoryId()));
+
 
         Habit habit = new Habit();
         habit.setName(habitDto.getName());
         habit.setCategory(category);
         habit.setUser(user);
         habit.setFrequency(Frequency.valueOf(habitDto.getFrequency()));
+        log.error("Habit creation failed");
         return habitRepository.save(habit);
+
     }
 
     public List<Habit> getHabitsByUser(UUID userId) {
