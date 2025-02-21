@@ -1,12 +1,18 @@
 package com.springlearn.backend.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.UUID;
 
 @Entity
 @Table(name = "habits")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Habit {
     @Id
     @GeneratedValue
@@ -28,4 +34,8 @@ public class Habit {
 
     @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HabitProgress> progress;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Frequency frequency;
 }

@@ -10,4 +10,5 @@ import java.util.UUID;
 
 public interface HabitCategoryRepository extends JpaRepository<HabitCategory, UUID> {
     Optional<HabitCategory> findByName(String name);
+
 }
