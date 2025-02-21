@@ -22,6 +22,10 @@ public class Habit {
     @JoinColumn(name = "category_id")
     private HabitCategory category;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<HabitProgress> progress;
 }

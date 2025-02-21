@@ -29,5 +29,4 @@ public class Reminder {
     @Column(nullable = false)
     private boolean isSent = false;
 
-    // Геттеры и сеттеры
 }
