@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Data
-public class HabitDto {
+public class HabitRequestDto {
     @NotNull(message = "Name is required")
     private String name;
 
@@ -21,6 +21,6 @@ public class HabitDto {
 
     private String frequency;
 
-    public HabitDto(UUID id, String name, String description, UUID id1, Frequency frequency) {
+    public HabitRequestDto(UUID id, String name, String description, UUID id1, Frequency frequency) {
     }
 }
