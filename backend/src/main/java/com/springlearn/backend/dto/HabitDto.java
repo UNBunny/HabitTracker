@@ -1,5 +1,6 @@
 package com.springlearn.backend.dto;
 
+import com.springlearn.backend.model.Frequency;
 import lombok.Data;
 
 import jakarta.validation.constraints.NotNull;
@@ -19,4 +20,7 @@ public class HabitDto {
     private UUID userId;
 
     private String frequency;
+
+    public HabitDto(UUID id, String name, String description, UUID id1, Frequency frequency) {
+    }
 }

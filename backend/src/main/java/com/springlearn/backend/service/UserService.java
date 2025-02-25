@@ -8,7 +8,6 @@ import com.springlearn.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -24,18 +23,35 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User getUserById(UUID id) {
-        return userRepository.findById(id)
+    public UserDto getUserById(UUID id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setUserName(user.getUserName());
+        userDto.setTelegramChatId(user.getTelegramChatId());
+
+        return userDto;
     }
 
-    public User getUserByTelegramChatId(Long telegramChatId) {
-        return userRepository.findByTelegramChatId(telegramChatId)
+    public UserDto getUserByTelegramChatId(Long telegramChatId) {
+        User user = userRepository.findByTelegramChatId(telegramChatId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with Telegram Chat ID: " + telegramChatId));
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setUserName(user.getUserName());
+        userDto.setTelegramChatId(user.getTelegramChatId());
+        return userDto;
     }
 
-    public User getUserByUserName(String username) {
-        return userRepository.findByUserName(username)
+    public UserDto getUserByUserName(String username) {
+        User user = userRepository.findByUserName(username)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with name: " + username));
+        UserDto userDto = new UserDto();
+        userDto.setId(user.getId());
+        userDto.setUserName(user.getUserName());
+        userDto.setTelegramChatId(user.getTelegramChatId());
+        return userDto;
     }
 }

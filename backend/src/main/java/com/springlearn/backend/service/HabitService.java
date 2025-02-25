@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Slf4j
 
@@ -47,11 +48,23 @@ public class HabitService {
 
     }
 
-    public List<Habit> getHabitsByUser(UUID userId) {
+    public List<HabitDto> getHabitsByUser(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
-        return habitRepository.findByUser(user);
+
+        List<Habit> habits = habitRepository.findByUser(user);
+
+        return habits.stream()
+                .map(habit -> new HabitDto(
+                        habit.getId(),
+                        habit.getName(),
+                        habit.getDescription(),
+                        habit.getUser().getId(),
+                        habit.getFrequency()
+                ))
+                .collect(Collectors.toList());
     }
+
 
     public Optional<Habit> getHabitById(UUID id) {
         return habitRepository.findById(id);

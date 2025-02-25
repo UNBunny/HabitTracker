@@ -2,7 +2,6 @@ package com.springlearn.backend.controller;
 
 import com.springlearn.backend.dto.HabitDto;
 import com.springlearn.backend.model.Habit;
-import com.springlearn.backend.model.User;
 import com.springlearn.backend.service.HabitService;
 import com.springlearn.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -30,8 +28,8 @@ public class HabitController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Habit>> getHabitsByUser(@RequestParam("userId") UUID userId) {
-        List<Habit> habits = habitService.getHabitsByUser(userId);
+    public ResponseEntity<List<HabitDto>> getHabitsByUser(@RequestParam("userId") UUID userId) {
+        List<HabitDto> habits = habitService.getHabitsByUser(userId);
         return ResponseEntity.ok(habits);
     }
 

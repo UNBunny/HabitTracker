@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @RestController
@@ -25,20 +23,20 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable UUID id) {
-        User user = userService.getUserById(id);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UserDto> getUserById(@PathVariable UUID id) {
+        UserDto userDto = userService.getUserById(id);
+        return ResponseEntity.ok(userDto);
     }
 
     @GetMapping("/username/{userName}")
-    public ResponseEntity<User> getUserByUserName(@PathVariable String userName) {
-        User user = userService.getUserByUserName(userName);
+    public ResponseEntity<UserDto> getUserByUserName(@PathVariable String userName) {
+        UserDto user = userService.getUserByUserName(userName);
         return ResponseEntity.ok(user);
     }
 
     @GetMapping("/telegram/{telegramChatId}")
-    public ResponseEntity<User> getUserByTelegramChatId(@PathVariable Long telegramChatId) {
-        User user = userService.getUserByTelegramChatId(telegramChatId);
+    public ResponseEntity<UserDto> getUserByTelegramChatId(@PathVariable Long telegramChatId) {
+        UserDto user = userService.getUserByTelegramChatId(telegramChatId);
         return ResponseEntity.ok(user);
     }
 }

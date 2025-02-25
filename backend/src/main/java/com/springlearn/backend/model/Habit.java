@@ -11,8 +11,8 @@ import java.util.UUID;
 @Entity
 @Table(name = "habits")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 public class Habit {
     @Id
     @GeneratedValue
