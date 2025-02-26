@@ -1,0 +1,61 @@
+package com.springlearn.bot.controller;
+
+import com.springlearn.bot.service.BotService;
+import org.hibernate.mapping.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
+import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+@Controller
+public class BotController extends TelegramLongPollingBot {
+
+    @Autowired
+    private BotService botService;
+
+
+    private final String botUsername = System.getenv("BOT_USERNAME");
+
+    private final String botToken = System.getenv("BOT_TOKEN");
+
+
+    @Override
+    public String getBotUsername() {
+        return botUsername;
+    }
+
+    @Override
+    public String getBotToken() {
+        return botToken;
+    }
+
+    @Override
+    public void onUpdateReceived(Update update) {
+        if (update.hasMessage() && update.getMessage().hasText()) {
+            long chatId = update.getMessage().getChatId();
+            String messageText = update.getMessage().getText();
+
+            if (messageText.equals("/start")) {
+                String response = botService.handleStartCommand(chatId);
+                sendMessage(chatId, response);
+            } else {
+                sendMessage(chatId, "Неизвестная команда. Используй /start для начала.");
+            }
+        }
+    }
+
+    private void sendMessage(long chatId, String text) {
+        SendMessage message = new SendMessage();
+        message.setChatId(String.valueOf(chatId));
+        message.setText(text);
+
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+}
