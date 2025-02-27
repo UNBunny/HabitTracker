@@ -32,10 +32,10 @@ public class Habit {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<HabitProgress> progress;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Frequency frequency;
+//    @OneToMany(mappedBy = "habit", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<HabitProgress> progress;
+//
+//    @Enumerated(EnumType.STRING)
+//    @Column(nullable = false)
+//    private Frequency frequency;
 }

@@ -31,7 +31,13 @@ public class HabitService {
     @Autowired
     private HabitCategoryRepository habitCategoryRepository;
 
+
     public HabitResponseDto createHabit(HabitRequestDto habitRequestDto) {
+
+        if (habitRequestDto.getName() == null || habitRequestDto.getName().isBlank()) {
+            throw new IllegalArgumentException("Habit name cannot be null or empty");
+        }
+
         User user = userRepository.findById(habitRequestDto.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + habitRequestDto.getUserId()));
 
@@ -41,9 +47,10 @@ public class HabitService {
 
         Habit habit = new Habit();
         habit.setName(habitRequestDto.getName());
+        habit.setDescription(habitRequestDto.getDescription());
         habit.setCategory(category);
         habit.setUser(user);
-        habit.setFrequency(Frequency.valueOf(habitRequestDto.getFrequency()));
+//        habit.setFrequency(Frequency.valueOf(habitRequestDto.getFrequency()));
 
         Habit savedDto = habitRepository.save(habit);
 
@@ -73,8 +80,8 @@ public class HabitService {
                 habit.getId(),
                 habit.getName(),
                 habit.getDescription(),
-                habit.getUser().getId(),
-                habit.getFrequency().name()
+                habit.getUser().getId()
+//                habit.getFrequency().name()
         );
     }
 }

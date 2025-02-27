@@ -1,26 +1,23 @@
 package com.springlearn.backend.dto;
 
-import com.springlearn.backend.model.Frequency;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class HabitRequestDto {
-    @NotNull(message = "Name is required")
     private String name;
 
     private String description;
 
-    @NotNull(message = "Category ID is required")
-    private UUID categoryId;
+    private Long categoryId;
 
-    @NotNull(message = "User ID is required")
     private UUID userId;
 
-    private String frequency;
+    //    private String frequency;
 
-    public HabitRequestDto(UUID id, String name, String description, UUID id1, Frequency frequency) {
-    }
 }

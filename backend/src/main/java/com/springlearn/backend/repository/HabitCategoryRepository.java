@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface HabitCategoryRepository extends JpaRepository<HabitCategory, UUID> {
+public interface HabitCategoryRepository extends JpaRepository<HabitCategory, Long> {
     Optional<HabitCategory> findByName(String name);
 
 }

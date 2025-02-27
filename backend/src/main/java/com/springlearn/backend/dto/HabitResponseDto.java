@@ -11,14 +11,14 @@ public class HabitResponseDto {
     private String name;
     private String description;
     private UUID userId;
-    private String frequency;
+//    private String frequency;
 
     // Конструктор для удобства
-    public HabitResponseDto(UUID id, String name, String description, UUID userId, String frequency) {
+    public HabitResponseDto(UUID id, String name, String description, UUID userId) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.userId = userId;
-        this.frequency = frequency;
+//        this.frequency = frequency;
     }
 }
