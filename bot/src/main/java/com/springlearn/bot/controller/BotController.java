@@ -1,6 +1,7 @@
 package com.springlearn.bot.controller;
 
 import com.springlearn.bot.service.BotService;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.mapping.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,12 +11,11 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-@Controller
+@Component
+@RequiredArgsConstructor(onConstructor_ = @Autowired)
 public class BotController extends TelegramLongPollingBot {
 
-    @Autowired
-    private BotService botService;
-
+    private final BotService botService;
 
     private final String botUsername = System.getenv("BOT_USERNAME");
 
@@ -38,12 +38,8 @@ public class BotController extends TelegramLongPollingBot {
             long chatId = update.getMessage().getChatId();
             String messageText = update.getMessage().getText();
 
-            if (messageText.equals("/start")) {
-                String response = botService.handleStartCommand(chatId);
-                sendMessage(chatId, response);
-            } else {
-                sendMessage(chatId, "Неизвестная команда. Используй /start для начала.");
-            }
+            String response = botService.handleCommand(chatId, messageText);
+            sendMessage(chatId, response);
         }
     }
 
