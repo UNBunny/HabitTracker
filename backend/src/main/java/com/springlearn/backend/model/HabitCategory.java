@@ -2,27 +2,32 @@ package com.springlearn.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+import lombok.*;
 
 import java.util.List;
-import java.util.UUID;
+import java.util.Set;
 
 @Entity
 @Table(name = "habit_categories")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class HabitCategory {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
+    @NotNull
+    @Size(min = 3, max = 50)
     private String name;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST, orphanRemoval = true)
     @JsonIgnore
-    private List<Habit> habits;
+    private Set<Habit> habits;
 }
+

@@ -4,6 +4,7 @@ package com.springlearn.backend.service;
 import com.springlearn.backend.dto.HabitRequestDto;
 import com.springlearn.backend.dto.HabitResponseDto;
 import com.springlearn.backend.exception.ResourceNotFoundException;
+import com.springlearn.backend.mapper.HabitMapper;
 import com.springlearn.backend.model.Frequency;
 import com.springlearn.backend.model.Habit;
 import com.springlearn.backend.model.HabitCategory;
@@ -31,7 +32,11 @@ public class HabitService {
     @Autowired
     private HabitCategoryRepository habitCategoryRepository;
 
+    @Autowired
+    private HabitMapper habitMapper;
 
+
+    // Создаем привычку
     public HabitResponseDto createHabit(HabitRequestDto habitRequestDto) {
 
         if (habitRequestDto.getName() == null || habitRequestDto.getName().isBlank()) {
@@ -44,44 +49,38 @@ public class HabitService {
         HabitCategory category = habitCategoryRepository.findById(habitRequestDto.getCategoryId())
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + habitRequestDto.getCategoryId()));
 
-
-        Habit habit = new Habit();
-        habit.setName(habitRequestDto.getName());
-        habit.setDescription(habitRequestDto.getDescription());
-        habit.setCategory(category);
-        habit.setUser(user);
+        Habit habit = habitMapper.toEntity(habitRequestDto, user, category);
+        habitRepository.save(habit);
+//        Habit habit = new Habit();
+//        habit.setFrequency(habitRequestDto.getFrequency());
+//        habit.setName(habitRequestDto.getName());
+//        habit.setDescription(habitRequestDto.getDescription());
+//        habit.setCategory(category);
+//        habit.setUser(user);
 //        habit.setFrequency(Frequency.valueOf(habitRequestDto.getFrequency()));
-
-        Habit savedDto = habitRepository.save(habit);
-
-        return convertToResponseDto(savedDto);
-
+        return habitMapper.toDto(habit);
     }
+
 
     public List<HabitResponseDto> getHabitsByUser(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
 
         List<Habit> habits = habitRepository.findByUser(user);
-        return habits.stream().map(this::convertToResponseDto).collect(Collectors.toList());
+        return habits.stream().map(habitMapper::toDto).collect(Collectors.toList());
     }
 
 
-    public Optional<Habit> getHabitById(UUID id) {
-        return habitRepository.findById(id);
+    public HabitResponseDto getHabitById(UUID id) {
+        Habit habit = habitRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Habit not found with id: " + id));
+        return habitMapper.toDto(habit);
     }
 
     public void deleteHabit(UUID id) {
+        if (!habitRepository.existsById(id)) {
+            throw new RuntimeException("Habit not found");
+        }
         habitRepository.deleteById(id);
     }
 
-    private HabitResponseDto convertToResponseDto(Habit habit) {
-        return new HabitResponseDto(
-                habit.getId(),
-                habit.getName(),
-                habit.getDescription(),
-                habit.getUser().getId()
-//                habit.getFrequency().name()
-        );
-    }
 }

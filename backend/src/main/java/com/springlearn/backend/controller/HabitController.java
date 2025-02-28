@@ -2,9 +2,7 @@ package com.springlearn.backend.controller;
 
 import com.springlearn.backend.dto.HabitRequestDto;
 import com.springlearn.backend.dto.HabitResponseDto;
-import com.springlearn.backend.model.Habit;
 import com.springlearn.backend.service.HabitService;
-import com.springlearn.backend.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,18 +20,20 @@ public class HabitController {
     @Autowired
     private HabitService habitService;
 
-
     @PostMapping
-    public ResponseEntity<HabitResponseDto> addHabit(@RequestBody HabitRequestDto habitRequestDto) {
-        System.out.println("Received HabitRequestDto: " + habitRequestDto);
-        HabitResponseDto createdHabit = habitService.createHabit(habitRequestDto);
-        return new ResponseEntity<>(createdHabit, HttpStatus.CREATED);
+    public ResponseEntity<HabitResponseDto> addHabit(@RequestBody @Valid HabitRequestDto habitRequestDto) {
+        return new ResponseEntity<>(habitService.createHabit(habitRequestDto), HttpStatus.CREATED);
     }
 
+    // Наверное лучше @GetMapping("/{userId}"), но пусть будет так
     @GetMapping()
     public ResponseEntity<List<HabitResponseDto>> getHabitsByUser(@RequestParam("userId") UUID userId) {
-        List<HabitResponseDto> habits = habitService.getHabitsByUser(userId);
-        return ResponseEntity.ok(habits);
+        return ResponseEntity.ok(habitService.getHabitsByUser(userId));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<HabitResponseDto> getHabitById(@PathVariable UUID id) {
+        return ResponseEntity.ok(habitService.getHabitById(id));
     }
 
     @DeleteMapping("/{id}")

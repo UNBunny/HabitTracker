@@ -10,15 +10,8 @@ public class HabitResponseDto {
     private UUID id;
     private String name;
     private String description;
+    private String category;
     private UUID userId;
-//    private String frequency;
-
-    // Конструктор для удобства
-    public HabitResponseDto(UUID id, String name, String description, UUID userId) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.userId = userId;
-//        this.frequency = frequency;
-    }
+    private String frequency;
 }
+

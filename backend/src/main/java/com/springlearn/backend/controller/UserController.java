@@ -2,8 +2,8 @@ package com.springlearn.backend.controller;
 
 
 import com.springlearn.backend.dto.UserDto;
-import com.springlearn.backend.model.User;
 import com.springlearn.backend.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,26 +17,22 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> addUser(@RequestBody UserDto userDto) {
-        User createdUser = userService.createUser(userDto);
-        return ResponseEntity.ok(createdUser);
+    public ResponseEntity<UserDto> addUser(@RequestBody @Valid UserDto userDto) {
+        return ResponseEntity.ok(userService.createUser(userDto));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable UUID id) {
-        UserDto userDto = userService.getUserById(id);
-        return ResponseEntity.ok(userDto);
+        return ResponseEntity.ok(userService.getUserById(id));
     }
 
     @GetMapping("/username/{userName}")
     public ResponseEntity<UserDto> getUserByUserName(@PathVariable String userName) {
-        UserDto user = userService.getUserByUserName(userName);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userService.getUserByUserName(userName));
     }
 
     @GetMapping("/telegram/{telegramChatId}")
     public ResponseEntity<UserDto> getUserByTelegramChatId(@PathVariable Long telegramChatId) {
-        UserDto user = userService.getUserByTelegramChatId(telegramChatId);
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(userService.getUserByTelegramChatId(telegramChatId));
     }
 }
