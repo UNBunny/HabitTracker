@@ -10,4 +10,6 @@ import java.util.UUID;
 
 public interface HabitProgressRepository extends JpaRepository<HabitProgress, UUID> {
     Optional<List<HabitProgress>> findByHabit(Habit habit);
+
+    List<HabitProgress> findByHabitId(UUID id);
 }
