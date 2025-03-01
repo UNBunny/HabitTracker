@@ -10,4 +10,5 @@ import java.util.UUID;
 
 public interface ReminderRepository extends JpaRepository<Reminder, UUID> {
     Optional<List<Reminder>> findByHabit(Habit habit);
+    List<Reminder> findByHabitId(UUID id);
 }

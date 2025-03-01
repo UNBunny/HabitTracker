@@ -3,7 +3,6 @@ package com.springlearn.backend.controller;
 
 import com.springlearn.backend.dto.HabitCompletionDto;
 import com.springlearn.backend.dto.HabitProgressDto;
-import com.springlearn.backend.model.HabitProgress;
 import com.springlearn.backend.service.HabitProgressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
