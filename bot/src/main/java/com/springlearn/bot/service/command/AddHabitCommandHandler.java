@@ -20,25 +20,26 @@ public class AddHabitCommandHandler implements CommandHandler {
 
     @Autowired
     private BackendClient backendClient;
+
     @Autowired
     private HabitCache habitCache;
     private final Map<Long, UserState> userStateMap = new HashMap<>();
 
 
-    @Override
-    public boolean canHandle(String commandName) {
-        return commandName.startsWith("/addHabit");
-    }
+//    @Override
+//    public boolean canHandle(String commandName) {
+//        return commandName.startsWith("/addHabit");
+//    }
 
     @Override
-    public String handle(long chatId, String messageText) {
+    public String handle(long chatId, String messageText, String userName) {
         userStateMap.put(chatId, UserState.AWAITING_HABIT_NAME);
         return "Введите название привычки:";
     }
 
 
     @Override
-    public String handleUserInput(long chatId, String messageText) {
+    public String handleUserInput(long chatId, String messageText, String userName) {
         UserState userState = userStateMap.getOrDefault(chatId, UserState.IDLE);
 
         switch (userState) {

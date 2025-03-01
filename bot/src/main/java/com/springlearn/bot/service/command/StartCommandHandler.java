@@ -13,19 +13,19 @@ public class StartCommandHandler implements CommandHandler {
     @Autowired
     private BackendClient backendClient;
 
-    @Override
-    public boolean canHandle(String commandName) {
-        return "start".equals(commandName);
-    }
+//    @Override
+//    public boolean canHandle(String commandName) {
+//        return commandName.startsWith("/start");
+//    }
 
     @Override
-    public String handle(long chatId, String messageText) {
+    public String handle(long chatId, String messageText, String userName) {
         UserDto existingUser = backendClient.getUserByTelegramChatId(chatId);
         if (existingUser != null) {
             return "Добро пожаловать обратно, " + existingUser.getUserName() + "!";
         } else {
             UserDto newUser = new UserDto();
-            newUser.setUserName("User " + chatId);
+            newUser.setUserName(userName);
             newUser.setTelegramChatId(chatId);
 
             UserDto createdUser = backendClient.createUser(newUser);
@@ -38,7 +38,7 @@ public class StartCommandHandler implements CommandHandler {
     }
 
     @Override
-    public String handleUserInput(long chatId, String messageText) {
+    public String handleUserInput(long chatId, String messageText, String userName) {
         return "";
     }
 }

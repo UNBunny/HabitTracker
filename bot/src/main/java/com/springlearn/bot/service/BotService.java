@@ -3,8 +3,6 @@ package com.springlearn.bot.service;
 import com.springlearn.bot.service.command.CommandHandler;
 import com.springlearn.bot.service.command.CommandHandlerFactory;
 import com.springlearn.bot.state.UserState;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -20,14 +18,14 @@ public class BotService {
         this.commandHandlerFactory = commandHandlerFactory;
     }
 
-    public String handleCommand(long chatId, String messageText) {
+    public String handleCommand(long chatId, String messageText, String userName) {
         // Проверяем состояние пользователя
         UserState currentState = userStates.getOrDefault(chatId, UserState.IDLE);
 
         if (currentState != UserState.IDLE) {
             // Если пользователь в процессе добавления привычки, передаем сообщение в обработчик
             CommandHandler handler = commandHandlerFactory.getHandler("addhabit");
-            return handler.handleUserInput(chatId, messageText);
+            return handler.handleUserInput(chatId, messageText, userName);
         } else {
             // Если состояние IDLE, обрабатываем команду
             String command = messageText.split(" ")[0].replaceFirst("/", "");
@@ -38,7 +36,7 @@ public class BotService {
                 if ("addhabit".equals(command)) {
                     userStates.put(chatId, UserState.AWAITING_HABIT_NAME);
                 }
-                return handler.handle(chatId, messageText);
+                return handler.handle(chatId, messageText, userName);
             } else {
                 return commandHandlerFactory.unknownCommand(chatId, messageText);
             }
