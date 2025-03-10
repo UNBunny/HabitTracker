@@ -26,6 +26,4 @@ public class HabitRequestDto {
 
     @NotNull
     private String frequency; // В ЭТОМ СЛУЧАЕ ПРИХОДИТ ИЗ JSON, ПОЭТОМУ STRING!!!!!
-
-
 }

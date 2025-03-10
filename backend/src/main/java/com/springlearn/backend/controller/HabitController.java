@@ -41,6 +41,4 @@ public class HabitController {
         habitService.deleteHabit(id);
         return ResponseEntity.noContent().build();
     }
-
-
 }

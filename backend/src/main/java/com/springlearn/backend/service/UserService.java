@@ -26,12 +26,9 @@ public class UserService {
         return userMapper.toDto(user);
     }
 
-
     public UserDto getUserById(UUID id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-
-
 //        UserDto userDto = new UserDto();
 //        userDto.setId(user.getId());
 //        userDto.setUserName(user.getUserName());

@@ -10,6 +10,4 @@ public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByUserName(String username);
 
     Optional<User> findByTelegramChatId(Long telegramChatId);
-
-
 }
