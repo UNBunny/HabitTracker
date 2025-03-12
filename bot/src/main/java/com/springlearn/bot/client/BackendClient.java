@@ -4,10 +4,15 @@ import com.springlearn.bot.dto.HabitRequestDto;
 import com.springlearn.bot.dto.HabitResponseDto;
 import com.springlearn.bot.dto.UserDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+import java.util.UUID;
 
 @Component
 public class BackendClient {
@@ -37,6 +42,10 @@ public class BackendClient {
 
     public HabitResponseDto addHabit(HabitRequestDto habitRequestDto) {
         return restTemplate.postForObject(BACKEND_URL + "/habits", habitRequestDto, HabitResponseDto.class);
+    }
+
+    public List<HabitResponseDto> getHabitsByUser(UUID userId) {
+        return restTemplate.exchange(BACKEND_URL + "/habits?userId=" + userId, HttpMethod.GET, null, new ParameterizedTypeReference<List<HabitResponseDto>>() {}).getBody();
     }
 
 }

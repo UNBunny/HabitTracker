@@ -10,9 +10,10 @@ import java.util.Map;
 public class CommandHandlerFactory {
     private final Map<String, CommandHandler> handlers = new HashMap<>();
 
-    public CommandHandlerFactory(StartCommandHandler startCommandHandler, AddHabitCommandHandler addHabitCommandHandler) {
+    public CommandHandlerFactory(StartCommandHandler startCommandHandler, AddHabitCommandHandler addHabitCommandHandler, CheckHabitsCommandHandler checkHabitsCommandHandler) {
         handlers.put("start", startCommandHandler);
         handlers.put("addhabit", addHabitCommandHandler);
+        handlers.put("checkHabits", checkHabitsCommandHandler);
     }
 
     public CommandHandler getHandler(String commandName) {
